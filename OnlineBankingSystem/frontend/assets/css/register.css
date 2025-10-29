@@ -1,0 +1,131 @@
+/* Global Styles */
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #eef3f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Card Design */
+.create-account-card {
+    width: 420px;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e3a8a;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #222;
+    display: block;
+    margin-bottom: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Checkbox */
+.terms-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin: 15px 0;
+}
+
+.terms-checkbox a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.terms-checkbox input {
+    width: 16px;
+    height: 16px;
+}
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+/* Bottom links */
+.signin-link {
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.signin-link a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}

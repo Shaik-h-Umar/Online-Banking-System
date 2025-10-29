@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank - Banking Made Simple</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* 🌑 DARK MODE VARIABLES */
+        :root {
+            --primary-blue: #5E72E4;
+            --primary-blue-dark: #4a5cc7;
+            --dark-navy: #232741;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light-gray: #F8F9FA;
+            --white: #FFFFFF;
+            --green: #2DCE89;
+            --border-light: #E9ECEF;
+        }
+
+        body.dark {
+            --white: #1f2336;
+            --bg-light-gray: #232741;
+            --text-dark: #FFFFFF;
+            --text-light: #cbd5e0;
+            --border-light: #3c4160;
+            --dark-navy: #111426;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            transition: background .3s, color .3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        h1,h2,h3,h4 { font-weight: 700; line-height: 1.3; }
+        h1 { font-size: 48px; }
+        h2 { font-size: 36px; }
+        h3 { font-size: 20px; }
+
+        section { padding: 80px 0; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: .3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .btn-primary{ background:var(--primary-blue);color:var(--white); }
+        .btn-primary:hover{ background:var(--primary-blue-dark);transform:translateY(-2px); }
+        .btn-outline{ background:transparent;color:var(--primary-blue-dark);border-color:var(--border-light); }
+        .btn-outline:hover{ background:var(--primary-blue);color:var(--white); }
+
+        /* HEADER */
+        header{
+            background:var(--white);
+            padding:20px 0;
+            border-bottom:1px solid var(--border-light);
+            position:sticky;top:0;z-index:1000;
+            box-shadow:0 2px 10px rgba(0,0,0,0.03);
+        }
+        header .container{
+            display:flex;justify-content:space-between;align-items:center;
+        }
+        .logo{ font-size:24px;font-weight:700;color:var(--primary-blue-dark); }
+        header nav{ display:flex;align-items:center;gap:40px; }
+        header nav ul{ display:flex;gap:30px; }
+        header nav ul a{ color:var(--text-light);font-weight:500; }
+        header nav ul a:hover{ color:var(--primary-blue); }
+        .header-actions{ display:flex;gap:15px; }
+
+        /* HERO */
+        .hero .container{
+            display:flex;align-items:center;gap:60px;
+        }
+        .hero-content{ flex:1.2; }
+        .hero-content p{color:var(--text-light);margin-bottom:30px;max-width:500px;}
+        .hero-buttons{ display:flex;gap:15px;margin-bottom:40px; }
+
+        .hero-widget{
+            flex-basis:400px;background:linear-gradient(135deg,var(--primary-blue),var(--primary-blue-dark));
+            border-radius:16px;padding:30px;color:var(--white);
+            box-shadow:0 15px 30px rgba(94,114,228,0.4);
+        }
+
+        /* SERVICES */
+        .services{ background-color:var(--bg-light-gray); }
+        .service-cards{
+            display:grid;grid-template-columns:repeat(4,1fr);
+            gap:30px;
+        }
+        .service-card{
+            background:var(--white);border-radius:12px;padding:35px 30px;text-align:center;
+            box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:0.3s;
+        }
+        .service-card:hover{
+            transform:translateY(-6px);box-shadow:0 10px 25px rgba(0,0,0,0.08);
+        }
+        .service-card .icon{
+            font-size:34px;margin-bottom:15px;color:var(--primary-blue);
+        }
+
+        /* SECURITY */
+        .security .container{
+            display:flex;align-items:center;gap:80px;
+        }
+
+        /* FOOTER */
+        footer{
+            background-color:var(--dark-navy);padding:70px 0;
+        }
+        footer h3,h4{ color:var(--white); }
+
+        /* DARK MODE TOGGLE */
+        .fab-toggle{
+            position:fixed;bottom:30px;right:30px;width:50px;height:50px;
+            background:var(--dark-navy);color:#fff;border-radius:50%;
+            display:flex;justify-content:center;align-items:center;
+            cursor:pointer;font-size:22px;transition:.3s;
+        }
+        .fab-toggle:hover{ transform:scale(1.1); }
+    </style>
+
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#" class="logo">SecureBank</a>
+            <nav>
+                <ul>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#security">Security</a></li>
+                </ul>
+
+                <div class="header-actions">
+
+                    <!-- ✅ PHP PATH TO BE ADDED LATER -->
+                    <!-- Example: href="login.php" -->
+                    <a href="../pages/login.php" class="btn btn-outline">Login</a>
+
+                    <!-- Example: href="register.php" -->
+                    <a href="../pages/register.php" class="btn btn-primary">Get Started</a>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Banking Made Simple, Secure & Smart</h1>
+                    <p>Experience smart financial management with confidence.</p>
+
+                    <div class="hero-buttons">
+                        <a href="../pages/register.php" class="btn btn-primary">Open Account</a>
+                        <a href="../pages/login.php" class="btn btn-outline">Login to Account</a>
+                    </div>
+                </div>
+
+                <div class="hero-widget">
+                    <h3>Your Account</h3>
+                    <div class="balance">$12,450.00</div>
+                    <div class="widget-buttons">
+                        <a href="#" class="btn">Transfer</a>
+                        <a href="#" class="btn">History</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Our Banking Services</h2>
+
+                <div class="service-cards">
+                    <div class="service-card"><div class="icon"><i class="fas fa-wallet"></i></div><h3>Account Management</h3><p>Manage your accounts efficiently.</p></div>
+                    <div class="service-card"><div class="icon"><i class="fas fa-exchange-alt"></i></div><h3>Money Transfers</h3><p>Instant secure transfers.</p></div>
+                    <div class="service-card"><div class="icon"><i class="fas fa-history"></i></div><h3>Transaction History</h3><p>Track your financial journey.</p></div>
+                    <div class="service-card"><div class="icon"><i class="fas fa-user-cog"></i></div><h3>Profile Management</h3><p>Control your profile settings.</p></div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="security" class="security">
+            <div class="container">
+                <div class="security-content">
+                    <h2>Your Security is Our Priority</h2>
+                    <p>We use industry-leading protections.</p>
+                    <ul>
+                        <li>✅ SSL Encryption</li>
+                        <li>✅ Fraud Monitoring</li>
+                        <li>✅ MFA Authentication</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div><h3>SecureBank</h3><p>Banking you can trust.</p></div>
+        </div>
+    </footer>
+
+    <div class="fab-toggle" id="darkToggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script>
+        const toggle = document.getElementById('darkToggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            toggle.innerHTML = document.body.classList.contains('dark') 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+        });
+    </script>
+
+</body>
+</html>
