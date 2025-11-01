@@ -1,12 +1,29 @@
 <?php
 session_start();
-// Dummy values (replace later with database fetch)
-$name = "Shaikh Umar";
-$email = "webmanagement2906@gmail.com";
-$mobile = "5236547897";
-$acc = "****-****-****-9406";
-$type = "Savings Account";
-$joined = "January 20, 2024";
+require_once '../backend/db_config.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch user data from the database
+$sql = "SELECT * FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+$name = $user['fullname'];
+$email = $user['email'];
+$mobile = $user['mobile'];
+$acc = '****-****-****-' . substr($user['account_number'], -4);
+$type = "Savings Account"; // Assuming a default value
+$joined = date("F j, Y", strtotime($user['created_at']));
+
 ?>
 
 <!DOCTYPE html>
@@ -30,8 +47,8 @@ $joined = "January 20, 2024";
     <header class="app-header">
         <a href="#" class="logo">SecureBank</a>
         <div class="header-right">
-            <span class="welcome-text">Welcome, <?php echo $name; ?></span>
-            <a href="#" class="btn btn-outline">Logout</a>
+            <span class="welcome-text">Welcome, <?php echo $_SESSION['fullname']; ?></span>
+            <a href="../backend/logout.php" class="btn btn-outline">Logout</a>
         </div>
     </header>
 
@@ -49,6 +66,13 @@ $joined = "January 20, 2024";
     <main class="main-content">
         <h1>Your Profile</h1>
         <p class="subtitle">Manage your personal information and security settings.</p>
+
+        <?php if(isset($_GET['success'])): ?>
+            <div class="alert success"><?php echo htmlspecialchars($_GET['success']); ?></div>
+        <?php endif; ?>
+        <?php if(isset($_GET['error'])): ?>
+            <div class="alert error"><?php echo htmlspecialchars($_GET['error']); ?></div>
+        <?php endif; ?>
 
         <section class="card">
             <h2>Personal Information</h2>

@@ -1,9 +1,21 @@
 <?php
 session_start();
+ob_start();
 require_once "db_config.php";
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: ../pages/login.php?error=Invalid request");
+    exit();
+}
+
+$email = trim($_POST['email']);
+$password = trim($_POST['password']);
+
+// Email format validation
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: ../pages/login.php?error=Invalid email format");
+    exit();
+}
 
 // Prepare and execute query
 $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
@@ -16,7 +28,12 @@ if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
 
     if (password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
+
+        // Session store
+        $_SESSION["user_id"] = $user["id"];
+        $_SESSION["fullname"] = $user["fullname"];
+        $_SESSION["email"] = $user["email"];
+
         header("Location: ../pages/dashboard.php");
         exit();
     } else {
@@ -27,4 +44,3 @@ if ($result->num_rows === 1) {
     header("Location: ../pages/login.php?error=User not found");
     exit();
 }
-?>

@@ -1,7 +1,10 @@
 <?php
-// transfer.php (UI only). Shows messages from transfer_process.php via GET params.
 session_start();
-// Note: no DB used here per your request. If you want session-based account number later, set $_SESSION['account_number'].
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
 $success = isset($_GET['success']) ? $_GET['success'] : '';
 $error = isset($_GET['error']) ? $_GET['error'] : '';
@@ -29,8 +32,8 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
             </nav>
         </div>
         <div class="header-right">
-            <span class="welcome-text">Welcome, Shaikh</span>
-            <a href="logout.php" class="btn btn-outline">Logout</a>
+            <span class="welcome-text">Welcome, <?php echo $_SESSION['fullname']; ?></span>
+            <a href="../backend/logout.php" class="btn btn-outline">Logout</a>
         </div>
     </header>
 

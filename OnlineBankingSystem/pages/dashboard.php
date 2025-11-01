@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// Temporary mock data (later fetch from DB)
-if(!isset($_SESSION['username'])){
-    $_SESSION['username'] = "Shaikh"; 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
 }
 ?>
 
@@ -26,8 +26,8 @@ if(!isset($_SESSION['username'])){
     <header class="app-header">
         <a href="#" class="logo">SecureBank</a>
         <div class="header-right">
-            <span class="welcome-text">Welcome, <?php echo $_SESSION['username']; ?></span>
-            <a href="logout.php" class="btn btn-outline">Logout</a>
+            <span class="welcome-text">Welcome, <?php echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : 'User'; ?></span>
+            <a href="../backend/logout.php" class="btn btn-outline">Logout</a>
         </div>
     </header>
 
@@ -64,7 +64,7 @@ if(!isset($_SESSION['username'])){
 
     <main class="main-content">
         <div class="greeting">
-            <h1>Good evening, <?php echo $_SESSION['username']; ?>!</h1>
+            <h1>Good evening, <?php echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : 'User'; ?>!</h1>
             <p>Here's what's happening with your account today.</p>
         </div>
 

@@ -1,6 +1,10 @@
 <?php
-// session_start(); // Uncomment when backend added
-// if(!isset($_SESSION['user'])) { header("Location: login.php"); exit(); }
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,8 +30,8 @@
             </nav>
         </div>
         <div class="header-right">
-            <span class="welcome-text">Welcome, Shaikh</span>
-            <a href="#" class="btn btn-outline">Logout</a>
+            <span class="welcome-text">Welcome, <?php echo $_SESSION['fullname']; ?></span>
+            <a href="../backend/logout.php" class="btn btn-outline">Logout</a>
         </div>
     </header>
 
