@@ -71,7 +71,8 @@ if (!isset($_SESSION['user_id'])) {
         <section class="top-grid">
             <div class="card balance-card">
                 <h2>Account Balance</h2>
-                <div class="balance-amount">$0.00</div>
+                <div class="balance-amount" id="balanceVal">$0</div>
+
                 <div class="account-number">Account: ****-****-****-9406</div>
                 <i class="fas fa-wallet card-icon"></i>
             </div>
@@ -105,11 +106,16 @@ if (!isset($_SESSION['user_id'])) {
                 <ul class="stats-list">
                     <li>
                         <span class="stat-label">Money Sent</span>
-                        <span class="stat-value">$0.00</span>
+                        <span class="stat-value" id="sentVal">$0</span>
+<span class="stat-value" id="recvVal">$0</span>
+<span class="stat-value" id="txnVal">0</span>
                     </li>
                     <li>
                         <span class="stat-label">Money Received</span>
-                        <span class="stat-value">$0.00</span>
+                        <span class="stat-value" id="sentVal">$0</span>
+<span class="stat-value" id="recvVal">$0</span>
+<span class="stat-value" id="txnVal">0</span>
+
                     </li>
                     <li>
                         <span class="stat-label">Transactions</span>
