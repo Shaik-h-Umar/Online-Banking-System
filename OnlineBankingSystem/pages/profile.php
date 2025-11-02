@@ -9,20 +9,27 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user data from the database
-$sql = "SELECT * FROM users WHERE id = ?";
+// Fetch only necessary user data
+$sql = "SELECT fullname, email, mobile, account_number, created_at FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-$name = $user['fullname'];
-$email = $user['email'];
-$mobile = $user['mobile'];
-$acc = '****-****-****-' . substr($user['account_number'], -4);
+// Format account number for display (e.g., 1234-5678-90)
+$account_number_formatted = 'N/A';
+if (!empty($user['account_number'])) {
+    $num = $user['account_number'];
+    // Basic formatting, adjust if account number length varies
+    $account_number_formatted = substr($num, 0, 4) . '-' . substr($num, 4, 4) . '-' . substr($num, 8);
+}
+
+$name = $user['fullname'] ?? 'N/A';
+$email = $user['email'] ?? 'N/A';
+$mobile = $user['mobile'] ?? 'N/A';
 $type = "Savings Account"; // Assuming a default value
-$joined = date("F j, Y", strtotime($user['created_at']));
+$joined = isset($user['created_at']) ? date("F j, Y", strtotime($user['created_at'])) : 'N/A';
 
 ?>
 
@@ -58,6 +65,7 @@ $joined = date("F j, Y", strtotime($user['created_at']));
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                 <li><a href="transfer.php"><i class="fas fa-paper-plane"></i><span>Transfer Money</span></a></li>
                 <li><a href="transaction_history.php"><i class="fas fa-history"></i><span>Transaction History</span></a></li>
+                <li><a href="deposit.php"><i class="fas fa-money-bill-wave"></i><span>Deposit Money</span></a></li>
                 <li class="active"><a href="profile.php"><i class="fas fa-user"></i><span>Profile</span></a></li>
             </ul>
         </nav>
@@ -79,15 +87,15 @@ $joined = date("F j, Y", strtotime($user['created_at']));
             <form>
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" value="<?php echo $name; ?>" disabled>
+                    <input type="text" value="<?php echo htmlspecialchars($name); ?>" disabled>
                 </div>
                 <div class="form-group">
                     <label>Email Address</label>
-                    <input type="email" value="<?php echo $email; ?>" disabled>
+                    <input type="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
                 </div>
                 <div class="form-group">
                     <label>Mobile Number</label>
-                    <input type="text" value="<?php echo $mobile; ?>" disabled>
+                    <input type="text" value="<?php echo htmlspecialchars($mobile); ?>" disabled>
                 </div>
             </form>
         </section>
@@ -97,15 +105,15 @@ $joined = date("F j, Y", strtotime($user['created_at']));
             <form>
                 <div class="form-group">
                     <label>Account Number</label>
-                    <input type="text" value="<?php echo $acc; ?>" disabled>
+                    <input type="text" value="<?php echo htmlspecialchars($account_number_formatted); ?>" disabled>
                 </div>
                 <div class="form-group">
                     <label>Account Type</label>
-                    <input type="text" value="<?php echo $type; ?>" disabled>
+                    <input type="text" value="<?php echo htmlspecialchars($type); ?>" disabled>
                 </div>
                 <div class="form-group">
                     <label>Joined On</label>
-                    <input type="text" value="<?php echo $joined; ?>" disabled>
+                    <input type="text" value="<?php echo htmlspecialchars($joined); ?>" disabled>
                 </div>
             </form>
         </section>

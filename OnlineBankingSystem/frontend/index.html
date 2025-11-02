@@ -133,6 +133,23 @@
             display:flex;align-items:center;gap:80px;
         }
 
+        /* FEATURES */
+        .features{ background-color:var(--white); }
+        .feature-cards{
+            display:grid;grid-template-columns:repeat(3,1fr);
+            gap:30px;
+        }
+        .feature-card{
+            background:var(--bg-light-gray);border-radius:12px;padding:35px 30px;text-align:center;
+            box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:0.3s;
+        }
+        .feature-card:hover{
+            transform:translateY(-6px);box-shadow:0 10px 25px rgba(0,0,0,0.08);
+        }
+        .feature-card .icon{
+            font-size:34px;margin-bottom:15px;color:var(--primary-blue);
+        }
+
         /* FOOTER */
         footer{
             background-color:var(--dark-navy);padding:70px 0;
@@ -158,6 +175,7 @@
             <nav>
                 <ul>
                     <li><a href="#services">Services</a></li>
+                    <li><a href="#features">Features</a></li>
                     <li><a href="#security">Security</a></li>
                 </ul>
 
@@ -208,6 +226,29 @@
                     <div class="service-card"><div class="icon"><i class="fas fa-user-cog"></i></div><h3>Profile Management</h3><p>Control your profile settings.</p></div>
                 </div>
 
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2>Features</h2>
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>Dashboard</h3>
+                        <p>A comprehensive overview of your account activity.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <h3>Deposit Money</h3>
+                        <p>Easily deposit money into your account.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-paper-plane"></i></div>
+                        <h3>Transfer Money</h3>
+                        <p>Send money to other users securely.</p>
+                    </div>
+                </div>
             </div>
         </section>
 

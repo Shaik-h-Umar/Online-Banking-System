@@ -9,15 +9,15 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user data from the database
-$sql = "SELECT * FROM users WHERE id = ?";
+// Fetch user data
+$sql = "SELECT fullname, balance FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-$current_balance = $user['balance'];
+$current_balance = $user['balance'] ?? 0.00;
 
 ?>
 
@@ -30,7 +30,6 @@ $current_balance = $user['balance'];
 
     <link rel="stylesheet" href="../frontend/assets/css/deposit.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 </head>
 <body>
 
@@ -48,8 +47,8 @@ $current_balance = $user['balance'];
             <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="transfer.php"><i class="fas fa-paper-plane"></i> Transfer Money</a></li>
             <li><a href="transaction_history.php"><i class="fas fa-history"></i> Transaction History</a></li>
-            <li><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
             <li class="active"><a href="deposit.php"><i class="fas fa-coins"></i> Deposit Money</a></li>
+            <li><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
         </ul>
     </nav>
 </aside>
@@ -61,6 +60,7 @@ $current_balance = $user['balance'];
     <?php if(isset($_GET['success'])): ?>
         <div class="alert success"><?php echo htmlspecialchars($_GET['success']); ?></div>
     <?php endif; ?>
+    
     <?php if(isset($_GET['error'])): ?>
         <div class="alert error"><?php echo htmlspecialchars($_GET['error']); ?></div>
     <?php endif; ?>
@@ -68,14 +68,15 @@ $current_balance = $user['balance'];
     <section class="card">
         <h2>Deposit Form</h2>
         <form method="POST" action="../backend/deposit_process.php">
+            
             <div class="form-group">
                 <label>Current Balance</label>
-                <input type="text" disabled value="<?php echo $current_balance; ?>">
+                <input type="text" disabled value="<?php echo number_format($current_balance,2); ?>">
             </div>
 
             <div class="form-group">
                 <label for="amount">Deposit Amount</label>
-                <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount" required min="1">
             </div>
 
             <button type="submit" class="btn btn-primary btn-submit">Deposit Now</button>

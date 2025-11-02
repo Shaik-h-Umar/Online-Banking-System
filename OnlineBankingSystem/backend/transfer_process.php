@@ -2,98 +2,90 @@
 session_start();
 require_once "db_config.php";
 
+// Helper function for clean redirects with messages
+function redirect_with_message($type, $message, $location) {
+    $_SESSION['flash_message'] = ['type' => $type, 'message' => $message];
+    header("Location: $location");
+    exit();
+}
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../pages/login.php");
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: ../pages/transfer.php");
+    exit();
+}
 
-    $sender_id = $_SESSION['user_id'];
-    $receiver_account_number = $_POST['receiver'];
-    $amount = $_POST['amount'];
-    $description = $_POST['desc'];
-    $password = $_POST['password'];
+$sender_id = $_SESSION['user_id'];
+$receiver_account_number = $_POST['receiver'] ?? '';
+$amount = (float)($_POST['amount'] ?? 0);
+$password = $_POST['password'] ?? '';
 
-    // Validate form data
-    if (empty($receiver_account_number) || empty($amount) || empty($password)) {
-        header("Location: ../pages/transfer.php?error=Please fill in all fields");
-        exit();
-    }
+if (empty($receiver_account_number) || $amount <= 0 || empty($password)) {
+    redirect_with_message('error', 'Please fill all required fields.', '../pages/transfer.php');
+}
 
-    if ($amount <= 0) {
-        header("Location: ../pages/transfer.php?error=Invalid amount");
-        exit();
-    }
+$conn->begin_transaction();
 
-    // Get sender's data
-    $sql = "SELECT * FROM users WHERE id = ?";
-    $stmt = $conn->prepare($sql);
+try {
+    // Get sender's details and lock the row for update
+    $stmt = $conn->prepare("SELECT id, password, balance FROM users WHERE id = ? FOR UPDATE");
     $stmt->bind_param("i", $sender_id);
     $stmt->execute();
-    $sender_result = $stmt->get_result();
-    $sender = $sender_result->fetch_assoc();
+    $sender = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
 
-    // Verify password
-    if (!password_verify($password, $sender['password'])) {
-        header("Location: ../pages/transfer.php?error=Incorrect password");
-        exit();
-    }
+    if (!$sender) { throw new Exception("Sender account not found."); }
+    if (!password_verify($password, $sender['password'])) { throw new Exception("Incorrect password."); }
+    if ($sender['balance'] < $amount) { throw new Exception("Insufficient balance."); }
 
-    // Check for sufficient balance
-    if ($sender['balance'] < $amount) {
-        header("Location: ../pages/transfer.php?error=Insufficient balance");
-        exit();
-    }
-
-    // Get receiver's data
-    $sql = "SELECT * FROM users WHERE account_number = ?";
-    $stmt = $conn->prepare($sql);
+    // Get recipient's details and lock for update
+    $stmt = $conn->prepare("SELECT id, balance FROM users WHERE account_number = ? FOR UPDATE");
     $stmt->bind_param("s", $receiver_account_number);
     $stmt->execute();
-    $receiver_result = $stmt->get_result();
+    $receiver = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
 
-    if ($receiver_result->num_rows == 0) {
-        header("Location: ../pages/transfer.php?error=Receiver not found");
-        exit();
-    }
+    if (!$receiver) { throw new Exception("Recipient account not found."); }
+    if ($sender['id'] === $receiver['id']) { throw new Exception("You cannot transfer money to your own account."); }
 
-    $receiver = $receiver_result->fetch_assoc();
-    $receiver_id = $receiver['id'];
+    // --- Execution ---
+    // Deduct from sender
+    $stmt = $conn->prepare("UPDATE users SET balance = balance - ? WHERE id = ?");
+    $stmt->bind_param("di", $amount, $sender['id']);
+    $stmt->execute();
+    if ($stmt->affected_rows !== 1) { throw new Exception("Failed to update sender balance."); }
+    $stmt->close();
 
-    // Start transaction
-    $conn->begin_transaction();
+    // Add to receiver
+    $stmt = $conn->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
+    $stmt->bind_param("di", $amount, $receiver['id']);
+    $stmt->execute();
+    if ($stmt->affected_rows !== 1) { throw new Exception("Failed to update recipient balance."); }
+    $stmt->close();
 
-    try {
-        // Deduct from sender
-        $sql = "UPDATE users SET balance = balance - ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("di", $amount, $sender_id);
-        $stmt->execute();
+    // Record transactions (Note: This version does not save the description)
+    $stmt = $conn->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type) VALUES (?, ?, ?, 'sent')");
+    $stmt->bind_param("iid", $sender['id'], $receiver['id'], $amount);
+    $stmt->execute();
+    if ($stmt->affected_rows !== 1) { throw new Exception("Failed to log sender transaction."); }
+    $stmt->close();
 
-        // Add to receiver
-        $sql = "UPDATE users SET balance = balance + ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("di", $amount, $receiver_id);
-        $stmt->execute();
+    $stmt = $conn->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type) VALUES (?, ?, ?, 'received')");
+    $stmt->bind_param("iid", $sender['id'], $receiver['id'], $amount);
+    $stmt->execute();
+    if ($stmt->affected_rows !== 1) { throw new Exception("Failed to log recipient transaction."); }
+    $stmt->close();
 
-        // Record transaction
-        $sql = "INSERT INTO transactions (sender_id, receiver_id, amount, description) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iids", $sender_id, $receiver_id, $amount, $description);
-        $stmt->execute();
+    // Commit the transaction
+    $conn->commit();
+    redirect_with_message('success', 'Transfer successful!', '../pages/transfer.php');
 
-        // Commit transaction
-        $conn->commit();
-
-        header("Location: ../pages/transfer.php?success=Transfer successful");
-        exit();
-
-    } catch (Exception $e) {
-        // Rollback transaction on error
-        $conn->rollback();
-        header("Location: ../pages/transfer.php?error=Transfer failed");
-        exit();
-    }
+} catch (Exception $e) {
+    $conn->rollback();
+    redirect_with_message('error', $e->getMessage(), '../pages/transfer.php');
 }
 ?>

@@ -24,9 +24,9 @@ if (!isset($_SESSION['user_id'])) {
             <a href="#" class="logo">SecureBank</a>
             <nav class="header-nav">
                 <a href="dashboard.php"><i class="fas fa-home nav-icon"></i> Dashboard</a>
-                <a href="transfer.php"><i class="fas fa-chevron-right"></i> <i class="fas fa-paper-plane nav-icon"></i> Transfer Money</a>
-                <a href="#" class="active"><i class="fas fa-chevron-right"></i> <i class="fas fa-history nav-icon"></i> Transaction History</a>
-                <a href="profile.php"><i class="fas fa-chevron-right"></i> <i class="fas fa-user nav-icon"></i> Profile</a>
+                <a href="transfer.php"><i class="fas fa-paper-plane nav-icon"></i> Transfer Money</a>
+                <a href="#" class="active"><i class="fas fa-history nav-icon"></i> Transaction History</a>
+                <a href="profile.php"><i class="fas fa-user nav-icon"></i> Profile</a>
             </nav>
         </div>
         <div class="header-right">
@@ -54,6 +54,12 @@ if (!isset($_SESSION['user_id'])) {
                     <a href="#">
                         <i class="fas fa-history"></i>
                         <span>Transaction History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="deposit.php">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Deposit Money</span>
                     </a>
                 </li>
                 <li>

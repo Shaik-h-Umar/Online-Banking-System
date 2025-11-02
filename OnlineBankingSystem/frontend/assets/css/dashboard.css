@@ -279,6 +279,11 @@ ul {
     color: var(--green);
 }
 
+.action-btn.deposit-money i {
+    background: #EBF5FF;
+    color: #3498DB;
+}
+
 .action-btn.view-history i {
     background: #EBF5FF;
     color: #3498DB;

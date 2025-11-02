@@ -53,6 +53,12 @@ if (!isset($_SESSION['user_id'])) {
                     </a>
                 </li>
                 <li>
+                    <a href="deposit.php">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Deposit Money</span>
+                    </a>
+                </li>
+                <li>
                     <a href="profile.php">
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
@@ -87,6 +93,10 @@ if (!isset($_SESSION['user_id'])) {
                         <i class="fas fa-paper-plane"></i>
                         <span>Send Money</span>
                     </a>
+                    <a href="deposit.php" class="action-btn deposit-money">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Deposit Money</span>
+                    </a>
                     <a href="transaction_history.php" class="action-btn view-history">
                         <i class="fas fa-history"></i>
                         <span>View History</span>
@@ -106,20 +116,15 @@ if (!isset($_SESSION['user_id'])) {
                 <ul class="stats-list">
                     <li>
                         <span class="stat-label">Money Sent</span>
-                        <span class="stat-value" id="sentVal">$0</span>
-<span class="stat-value" id="recvVal">$0</span>
-<span class="stat-value" id="txnVal">0</span>
+                        <span class="stat-value" id="sentVal"></span>
                     </li>
                     <li>
                         <span class="stat-label">Money Received</span>
-                        <span class="stat-value" id="sentVal">$0</span>
-<span class="stat-value" id="recvVal">$0</span>
-<span class="stat-value" id="txnVal">0</span>
-
+                        <span class="stat-value" id="recvVal"></span>
                     </li>
                     <li>
                         <span class="stat-label">Transactions</span>
-                        <span class="stat-value">0</span>
+                        <span class="stat-value" id="txnVal"></span>
                     </li>
                 </ul>
             </div>

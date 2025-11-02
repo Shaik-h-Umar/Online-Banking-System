@@ -136,13 +136,8 @@
         }
         
         .header-nav a i {
-            font-size: 12px;
-            margin-right: -4px; /* Adjust spacing for chevron */
-        }
-        .header-nav a .nav-icon { /* Specific icon like dashboard, transfer */
             font-size: 18px;
-            margin-right: 0;
-            width: 20px;
+            width: 20px; /* Ensures icons are aligned */
             text-align: center;
         }
 
