@@ -134,13 +134,13 @@ OnlineBankingSystem/
 
 ## 📸 Screenshots
 
-![Dashboard Screenshot](Screenshots/Dashboard.png)
-![Transfer Screenshot](Screenshots/TransferMoney.png)
-![Transaction History Screenshot](Screenshots/TransactionHistory.png)
-![Profile Screenshot](Screenshots/UserProfile.png)
-![Login Screenshot](Screenshots/Login.png)
-![Create User Screenshot](Screenshots/CreateUser.png)
-![Deposit Money Screenshot](Screenshots/DepositMoney.png)
+![Dashboard Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/Dashboard.png)
+![Transfer Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/TransferMoney.png)
+![Transaction History Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/TransactionHistory.png)
+![Profile Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/UserProfile.png)
+![Login Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/Login.png)
+![Create User Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/CreateUser.png)
+![Deposit Money Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/DepositMoney.png)
 
 ## 📖 Usage Guide
 
