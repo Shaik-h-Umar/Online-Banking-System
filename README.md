@@ -132,6 +132,16 @@ OnlineBankingSystem/
 | `type`        | `VARCHAR(255)`| The type of transaction (e.g., 'sent', 'received').|
 | `created_at`  | `TIMESTAMP`   | The date and time of the transaction.            |
 
+### `accounts` table
+
+| Column         | Type          | Description                               |
+| -------------- | ------------- | ----------------------------------------- |
+| `id`           | `int(11)` (PK)| Unique identifier for each account.       |
+| `user_id`      | `int(11)` (FK)| The ID of the user who owns the account.  |
+| `balance`      | `decimal(10,2)`| The account balance.                      |
+| `account_number`| `varchar(20)` | The unique account number.                |
+| `created_at`   | `timestamp`   | The date and time the account was created.|
+
 ## 📸 Screenshots
 
 ![Dashboard Screenshot](https://raw.githubusercontent.com/Shaik-h-Umar/Online-Banking-System/main/OnlineBankingSystem/Screenshots/Dashboard.png)
